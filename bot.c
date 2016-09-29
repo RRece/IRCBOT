@@ -177,6 +177,119 @@ unsigned int getChannelSettings(const char channel[])
 	return(0);
 }
 
+//allgemeinen Channelfunktionen
+void ircCommands(irc_session_t * session,const char * origin,const char ** params,unsigned int settings)
+{
+	if (settings & QUIT && !strcmp (params[1], "!quit") )
+	{
+	irc_cmd_quit (session, "Bot wird beendet...");
+	}
+
+	if(strstr(params[1],botnick))
+	{
+		irc_cmd_msg(session, params[0][0] =='#' ? params[0] : origin ,"me?");
+	}
+
+	if (settings & NICK_CHANGE && strstr (params[1], "!nick") == params[1] )
+	{
+		sprintf(botnick,"%s",params[1] + 6);
+		irc_cmd_nick (session, params[1] + 6);
+	}
+
+	if(settings & JOIN_PART)
+	{	
+		if(currentChannelCount < MAX_CHANNELS)
+		if (strstr (params[1], "!join") == params[1] )
+		{
+		irc_cmd_join (session, params[1] + 6,0);
+		currentChannelCount++;
+		}
+	
+		if (strstr (params[1], "!part") == params[1] )
+		{
+			if(strstr(params[0],ctx.channel) == 0)
+			{
+				irc_cmd_part (session, params[0]);
+				rmChannel(params[0]);
+				currentChannelCount--;
+			}
+			else
+			{
+				irc_cmd_msg(session,params[0],"Hier geh ich net raus");
+			}	
+		}
+	}
+
+	if(settings & GET_TIME && strstr(params[1],"!time"))
+	{	
+		char tmp[60];
+		time ( &rawtime );
+		ptm = gmtime ( &rawtime );
+
+		sprintf(tmp,"Es ist %2d:%02d\n", (ptm->tm_hour+MESZ)%24, ptm->tm_min);
+		irc_cmd_msg(session, params[0][0] =='#' ? params[0] : origin ,tmp);
+	}
+
+	if(settings & TOPIC_CHANGE)
+	{
+		if ( !strcmp (params[1], "!topic") )
+		{
+			irc_cmd_topic (session, params[0], 0);
+		}
+		else if ( strstr (params[1], "!topic ") == params[1] )
+		{
+			irc_cmd_topic (session, params[0], params[1] + 7);
+		}
+	}
+
+
+	if(strstr(params[1],"!status"))
+	{
+		char tmp[80];
+		sprintf(tmp,"Channelsettings = %d",getChannelSettings(params[0]));
+		irc_cmd_msg(session,params[0],tmp);
+	}
+
+	if(strstr(params[1],"!set"))
+	{
+		int settings;
+		char line[200];
+		char parts[32][32];
+		int i = 0;
+
+		strcpy(line,params[1]);
+
+		char *ptr =strtok(line," ");
+
+		while(ptr !=NULL)
+		{
+			sprintf(parts[i],"%s",ptr);
+			ptr = strtok(NULL, " ");
+			i++;
+		}
+
+		settings = atoi(parts[2]);
+
+		if(strstr(parts[2],"privmsg"))
+		{	
+			privmsg_settings = settings;	
+		}
+		else
+		{
+			setChannelSettings(parts[1],settings);
+		}
+	}
+
+	if(strstr(params[1],"!debug"))
+	{	
+		int i;
+		for(i=0;i<MAX_CHANNELS;i++)
+		{
+		printf("%d=%s=%d\n",i,chansettings[i].channel,chansettings[i].settings);
+		}
+	}
+}
+
 
 int main()
 {
