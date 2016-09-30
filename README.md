@@ -31,7 +31,38 @@ Die Konfigurationsdatei besteht aus einer Zeile. Sie muss wie folgt aufgebaut se
 
 Der Bot reagiert im Maser Channel(erste angegebene Kanal) auf folgende Befehle.
 
-	!quit	Beendet den Bot
+	!quit			Beendet den Bot
+	!nick <neuer Name>	Bot ändert seinen Namen
+	!join #CHANNEL		Bot joint einem Channel
+	!part			Bot verlässt aktuellen Channel (außer den Master Channel)
+	!topic <neues Topic>	Bot ändert topic
+	!time	 		Bot gibt Serverzeit aus
+	!set #CHANNEL <Settings>Bot legt Einstellungen im Channel fest
+	!status			Bot gibt Einsellung im aktuellen Channel aus
+	!geturls		Bot gibt die letzten 5 URLs aus (wenn er sie mitloggt)
 	
+	Der Bot reagiert auf seinen Namen. Dies dient als Ping.
+	
+5. Chat Einstellungen
+
+Die Einstellungesn de Bots in einem Channel sind Bitcodiert
+
+ 1	Topic ändern
+ 2	Nick ändern
+ 4	Channel beitreten/verlassen
+ 8	Bot Beenden
+16	Zeit ausgeben
+32	In Textdatei loggen
+64	URLs loggen
+
+Beispiele:
+Bot darf nur das Topic ändern
+	!set #CHANNEL 1
+	
+Bot soll URls loggen und darf beendet werden
+
+	!set #Channel 72
+	
+	(72 = 8 + 64)
 
 

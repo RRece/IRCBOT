@@ -194,6 +194,7 @@ void ircCommands(irc_session_t * session,const char * origin,const char ** param
 	{
 		sprintf(botnick,"%s",params[1] + 6);
 		irc_cmd_nick (session, params[1] + 6);
+		printf("Ändere Nick zu %s", botnick);	
 	}
 
 	if(settings & JOIN_PART)
@@ -350,14 +351,12 @@ void event_connect (irc_session_t * session, const char * event, const char * or
 //Channel beitritt
 void event_join (irc_session_t * session, const char * event, const char * origin, const char ** params, unsigned int count)
 {
-	irc_cmd_user_mode (session, "+i");
-	//irc_cmd_msg (session, params[0], "Hallo");
+	irc_cmd_user_mode (session, "+i");	
 }
 
 //Privat Nachricht
 void event_privmsg (irc_session_t * session, const char * event, const char * origin, const char ** params, unsigned int count)
 {
-	//printf ("'%s' said me (%s): %s\n", origin ? origin : "someone", params[0], params[1] );
 	if(privmsg_settings & LOG_TXT)
 	log_file(origin,"privmsg",params[1]);
 
@@ -372,7 +371,6 @@ void event_privmsg (irc_session_t * session, const char * event, const char * or
 //im Channel
 void event_channel (irc_session_t * session, const char * event, const char * origin, const char ** params, unsigned int count)
 {
-	//printf("'%s' said in channel %s: %s\n",origin ? origin : "someone",params[0],params[1]);
 	int tmpsettings = getChannelSettings(params[0]);
 
 	if(tmpsettings & LOG_TXT)
@@ -445,9 +443,6 @@ int main(int argc, char** argv)
 	callbacks.event_join = event_join;
 	callbacks.event_channel = event_channel;
 	callbacks.event_privmsg = event_privmsg;
-	
-	// ctx.channel = "#Bot";
-	// ctx.nick = "FH-BoT";
 
 	if(server == NULL)
 	{
