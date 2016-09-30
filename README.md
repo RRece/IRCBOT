@@ -10,6 +10,12 @@ Inhaltsverzeichnis
 
 1. Installation
 
+mit ./make install
+
+oder
+
+gcc -o ircbot bot.c -g -Wall include/libircclient.o -lsqlite3
+
 
 2. Bot starten
 
