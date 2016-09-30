@@ -406,7 +406,7 @@ int main(int argc, char** argv)
 	printf(" : - SQLite wird initialisiert...\n");
 	sqlite3_open(SQLITEFILE, &sqlitedb);
 	sql_createtables();
-
+	
 	switch(argc)
 	{
 	case 2:
