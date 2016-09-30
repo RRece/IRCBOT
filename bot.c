@@ -4,7 +4,7 @@
 #include <ctype.h>
 
 #include "./include/libircclient.h"
-#include "sqlite3.h"
+#include <sqlite3.h>
 
 //libircclient 
 typedef struct
@@ -290,6 +290,54 @@ void ircCommands(irc_session_t * session,const char * origin,const char ** param
 	}
 }
 
+//Tabelle der SQLite DB erstellen
+void sql_createtables()
+{
+	sqlite3_exec(sqlitedb, "CREATE TABLE urls (id integer primary key, nick text, channel text, url text);", NULL, NULL, NULL);
+}
+
+//fürgt URL in Datenbank ein
+void sql_addurl(const char name[],const char channel[],const char url[])
+{
+	char tmp[1200];
+	sprintf(tmp,"INSERT INTO urls (nick,channel, url) VALUES ('%s', '%s', '%s');",name,channel,url);
+	sqlite3_exec(sqlitedb, tmp, NULL, NULL, NULL);
+}
+
+//gibt den bestand der Datenbank in Console aus
+void sql_geturls()
+{
+	sqlite3_stmt *vm;
+        sqlite3_prepare(sqlitedb, "SELECT * FROM urls", -1, &vm, NULL);
+
+        printf("ID:\tnick\tchannel\turl\n");
+
+	while (sqlite3_step(vm) != SQLITE_DONE)
+        {
+                printf("%i\t%s\t%s\t%s\n", sqlite3_column_int(vm, 0), sqlite3_column_text(vm, 1), sqlite3_column_text(vm, 2), sqlite3_column_text(vm, 3));
+        }
+        sqlite3_finalize(vm);
+}
+
+//gibt Letzten Eingetragenen URLs aus
+void sql_geturl(irc_session_t *session,const char name[],int counter)
+{
+	sqlite3_stmt *vm;
+	sqlite3_prepare(sqlitedb, "SELECT * FROM urls ORDER BY id DESC", -1, &vm, NULL);
+
+	int i = 0;	
+	while (sqlite3_step(vm) != SQLITE_DONE)
+	{
+		char tmp[1200];
+		sprintf(tmp,"%s (%s - %s)",sqlite3_column_text(vm, 3),sqlite3_column_text(vm, 1),sqlite3_column_text(vm, 2));
+		irc_cmd_msg(session,name,tmp);
+		i++;
+		if(i==counter)
+		break;
+        }
+        sqlite3_finalize(vm);
+
+}
 
 int main()
 {
