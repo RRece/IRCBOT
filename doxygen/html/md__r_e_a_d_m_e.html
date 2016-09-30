@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.12"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>IRC Bot: README</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">IRC Bot
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Erzeugt von Doxygen 1.8.12 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search",false,'Suchen');
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Suchen');
+  $(document).ready(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">README </div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><p>IRC Bot</p>
+<p>Inhaltsverzeichnis</p>
+<ol type="1">
+<li>Installation</li>
+<li>Bot starten</li>
+<li>Konfigurationsdateien</li>
+<li>Chat Befahle</li>
+<li>Chat Einstellungen</li>
+</ol>
+<ol type="1">
+<li>Installation</li>
+</ol>
+<p>mit ./make install</p>
+<p>oder</p>
+<p>gcc -o ircbot bot.c -g -Wall include/libircclient.o -lsqlite3</p>
+<ol type="1">
+<li>Bot starten</li>
+</ol>
+<p>Der Bot wird aus der Komandokonsole gestartet. Die erfolgt mit dem Befehl: </p><pre class="fragment">./ircbot SERVER NICK "#CHANNEL"
+</pre><p>oder per Konfigurationsdatei </p><pre class="fragment">./ircbot KONFIGURATIONSDATEI
+</pre><ol type="1">
+<li>Konfigurationsdatei</li>
+</ol>
+<p>Die Konfigurationsdatei besteht aus einer Zeile. Sie muss wie folgt aufgebaut sein. </p><pre class="fragment">IRCSERVER;BOTNAME;#CHANNEL;
+</pre><ol type="1">
+<li>Chat Befehle</li>
+</ol>
+<p>Der Bot reagiert im Maser Channel(erste angegebene Kanal) auf folgende Befehle. </p><pre class="fragment">!quit           Beendet den Bot
+!nick &lt;neuer Name&gt;  Bot ändert seinen Namen
+!join #CHANNEL      Bot joint einem Channel
+!part           Bot verlässt aktuellen Channel (außer den Master Channel)
+!topic &lt;neues Topic&gt;    Bot ändert topic
+!time           Bot gibt Serverzeit aus
+!set #CHANNEL &lt;Settings&gt;Bot legt Einstellungen im Channel fest
+!status         Bot gibt Einsellung im aktuellen Channel aus
+!geturls        Bot gibt die letzten 5 URLs aus (wenn er sie mitloggt)
+
+Der Bot reagiert auf seinen Namen. Dies dient als Ping.
+</pre><ol type="1">
+<li>Chat Einstellungen</li>
+</ol>
+<p>Die Einstellungesn de Bots in einem Channel sind Bitcodiert</p>
+<p>1 Topic ändern 2 Nick ändern 4 Channel beitreten/verlassen 8 Bot Beenden 16 Zeit ausgeben 32 In Textdatei loggen 64 URLs loggen</p>
+<p>Beispiele: Bot darf nur das Topic ändern !set #CHANNEL 1</p>
+<p>Bot soll URls loggen und darf beendet werden </p><pre class="fragment">!set #Channel 72
+
+(72 = 8 + 64)</pre> </div></div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Erzeugt von &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.12
+</small></address>
+</body>
+</html>

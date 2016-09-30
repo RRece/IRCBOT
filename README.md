@@ -12,11 +12,6 @@ Inhaltsverzeichnis
 
 mit ./make install
 
-oder
-
-gcc -o ircbot bot.c -g -Wall include/libircclient.o -lsqlite3
-
-
 2. Bot starten
 
 Der Bot wird aus der Komandokonsole gestartet. Die erfolgt mit dem Befehl:

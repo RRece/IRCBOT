@@ -1,0 +1,99 @@
+.TH "ircbot" 3 "Fre Sep 30 2016" "IRC Bot" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+IRCbot \- README 
+IRC Bot
+.PP
+Inhaltsverzeichnis
+.PP
+.IP "1." 4
+Installation
+.IP "2." 4
+Bot starten
+.IP "3." 4
+Konfigurationsdateien
+.IP "4." 4
+Chat Befahle
+.IP "5." 4
+Chat Einstellungen
+.PP
+.IP "1." 4
+Installation
+.PP
+.PP
+mit \&./make install
+.PP
+.IP "2." 4
+Bot starten
+.PP
+.PP
+Der Bot wird aus der Komandokonsole gestartet\&. Die erfolgt mit dem Befehl: 
+.PP
+.nf
+./ircbot SERVER NICK "#CHANNEL"
+
+.fi
+.PP
+.PP
+oder per Konfigurationsdatei 
+.PP
+.nf
+./ircbot KONFIGURATIONSDATEI
+
+.fi
+.PP
+.PP
+.IP "3." 4
+Konfigurationsdatei
+.PP
+.PP
+Die Konfigurationsdatei besteht aus einer Zeile\&. Sie muss wie folgt aufgebaut sein\&. 
+.PP
+.nf
+IRCSERVER;BOTNAME;#CHANNEL;
+
+.fi
+.PP
+.PP
+.IP "4." 4
+Chat Befehle
+.PP
+.PP
+Der Bot reagiert im Maser Channel(erste angegebene Kanal) auf folgende Befehle\&. 
+.PP
+.nf
+!quit           Beendet den Bot
+!nick <neuer Name>  Bot ändert seinen Namen
+!join #CHANNEL      Bot joint einem Channel
+!part           Bot verlässt aktuellen Channel (außer den Master Channel)
+!topic <neues Topic>    Bot ändert topic
+!time           Bot gibt Serverzeit aus
+!set #CHANNEL <Settings>Bot legt Einstellungen im Channel fest
+!status         Bot gibt Einsellung im aktuellen Channel aus
+!geturls        Bot gibt die letzten 5 URLs aus (wenn er sie mitloggt)
+
+Der Bot reagiert auf seinen Namen. Dies dient als Ping.
+
+.fi
+.PP
+.PP
+.IP "5." 4
+Chat Einstellungen
+.PP
+.PP
+Die Einstellungesn de Bots in einem Channel sind Bitcodiert
+.PP
+1 Topic ändern 2 Nick ändern 4 Channel beitreten/verlassen 8 Bot Beenden 16 Zeit ausgeben 32 In Textdatei loggen 64 URLs loggen
+.PP
+Beispiele: Bot darf nur das Topic ändern !set #CHANNEL 1
+.PP
+Bot soll URls loggen und darf beendet werden 
+.PP
+.nf
+!set #Channel 72
+
+(72 = 8 + 64)
+.fi
+.PP
+ 
