@@ -4,7 +4,7 @@
 #include <ctype.h>
 
 #include "./include/libircclient.h"
-#include <sqlite3.h>
+#include "sqlite3.h"
 
 //libircclient 
 typedef struct
